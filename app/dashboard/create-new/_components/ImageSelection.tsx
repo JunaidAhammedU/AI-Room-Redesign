@@ -9,7 +9,7 @@ export default function ImageSelection({ selectedFile }: { selectedFile: any | n
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] as File;
     if (file) {
-      selectedFile = file;
+      selectedFile(file);
       setImageUrl(URL.createObjectURL(file));
     }
   };
