@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import ImageSelection from "./_components/ImageSelection";
 import RoomType from "./_components/RoomType";
 import DesignType from "./_components/DesignType";
@@ -9,23 +9,34 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/config/firebase";
+import { useUser } from "@clerk/nextjs";
+import CustomLoading from "./_components/CustomLoading";
+import AIOutputDialoge from "../_components/AIOutputDialoge";
 
 export default function CreateNew() {
+  const { user } = useUser();
   const [formData, setFormData] = React.useState<any>({});
+  const [loading, setLoading] = useState(false);
+  const [aiOutputImg, setAiOutputImg] = useState<any>({});
+  const [orgImage, setOrgImage] = useState<any>();
+  const [openOutputDialog, setOpenOutputDialog] = useState(false);
   const onHandleInput = (value: any, fieldName: string) => {
     setFormData((prev: any) => ({ ...prev, [fieldName]: value }));
-
-    console.log(formData);
   };
 
   const GenerateAIImage = async () => {
-    const rawImageUrl = saveRawImagetoFirebase();
+    setLoading(true);
+    const rawImageUrl = await saveRawImagetoFirebase();
     const resut = await axios.post("/api/redesign-room", {
       imageUrl: rawImageUrl,
       roomType: formData?.roomType,
       designType: formData?.designType,
       description: formData?.additionalRequirements,
+      userEmail: user?.primaryEmailAddress?.emailAddress,
     });
+    setAiOutputImg(resut.data.result);
+    setOpenOutputDialog(true);
+    setLoading(false);
   };
 
   const saveRawImagetoFirebase = async () => {
@@ -37,9 +48,10 @@ export default function CreateNew() {
     });
 
     const downloadUrl = await getDownloadURL(imageRef);
-    console.log(downloadUrl);
+    setOrgImage(downloadUrl);
     return downloadUrl
   };
+  
   return (
     <div>
       <h2 className="text-4xl font-bold text-center">
@@ -84,6 +96,13 @@ export default function CreateNew() {
           </p>
         </div>
       </div>
+      <CustomLoading loading={loading} />
+      <AIOutputDialoge
+        openOutputDialog={openOutputDialog} 
+        closeOutputDialog={()=> setOpenOutputDialog(false)}
+        orgImage={orgImage}
+        aiImageUrl={aiOutputImg}
+        />
     </div>
   );
 }
