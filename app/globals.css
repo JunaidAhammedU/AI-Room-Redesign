@@ -6,6 +6,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.listCard img{
+  height: 200px !important;
+  max-width: 200px;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

@@ -11,9 +11,9 @@ export default function CustomLoading({loading} : {loading: boolean}) {
       <AlertDialog open={loading}>
         <AlertDialogContent>
             <div className="flex flex-col items-center bg-white">
-                <Image src={"/Loading.gif"} width={100} height={100} alt="loading" />
+                <Image src={"/Loading.gif"} className="object-cover" width={150} height={150} alt="loading" />
             </div>
-            <h1>Redesigning your room..., Do not refresh</h1>
+            <h1 className="text-center">Redesigning your room..., Do not refresh</h1>
         </AlertDialogContent>
       </AlertDialog>
     </>
