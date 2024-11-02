@@ -1,63 +1,74 @@
+"use client";
 
+import React, { useContext, useState } from "react";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import axios from "axios";
+import { useUser } from "@clerk/nextjs";
+import { UserDetailContext } from "@/app/_context/userDetailContext";
+// import { useRouter } from "next/router";
 
 interface Tier {
   name: string;
+  credits: number;
   id: string;
-  href: string;
-  priceMonthly: string;
+  price: string;
   description: string;
   featured: boolean;
 }
 
 const tiers: Tier[] = [
-  {
-    name: "5 credits",
-    id: "tier-hobby",
-    href: "#",
-    priceMonthly: "$0.99",
-    description:
-      "The perfect plan if you're just getting started with our product.",
-    featured: false,
-  },
-   {
-    name: "10 credits",
-    id: "tier-hobby",
-    href: "#",
-    priceMonthly: "$1.99",
-    description:
-      "The perfect plan if you're just getting started with our product.",
-    featured: false,
-  },
-  {
-    name: "50 credits",
-    id: "tier-hobby",
-    href: "#",
-    priceMonthly: "$4.99",
-    description:
-      "The perfect plan if you're just getting started with our product.",
-    featured: true,
-  },
-  {
-    name: "100 credits",
-    id: "tier-enterprise",
-    href: "#",
-    priceMonthly: "$9.99",
-    description: "Dedicated support and infrastructure for your company.",
-    featured: true,
-  },
+  { name: "5 credits", credits: 5, id: "tier-5", price: "0.99", description: "Starter plan", featured: false },
+  { name: "10 credits", credits: 10, id: "tier-10", price: "1.99", description: "For growing users", featured: false },
+  { name: "50 credits", credits: 50, id: "tier-50", price: "4.99", description: "Popular plan", featured: false },
+  { name: "100 credits", credits: 100, id: "tier-100", price: "9.99", description: "Enterprise plan", featured: false },
 ];
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+const Pricing = () => {
+  const [selectedPlan, setSelectedPlan] = useState<Tier | null>(null);
+  const { user } = useUser();
+  // const router = useRouter();
+  const context = useContext(UserDetailContext);
 
-const Pricing: React.FC = () => {
+  if (!context) return null;
+
+  const { userDetails } = context;
+
+  const createOrder = (data: any, actions: any) => {
+    if (!selectedPlan) return;
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: { value: selectedPlan.price },
+          description: selectedPlan.description,
+        },
+      ],
+    });
+  };
+
+  const onApprove = async () => {
+    try {
+      const response = await axios.post("/api/buy-credits", {
+        userEmail: user?.primaryEmailAddress?.emailAddress,
+        currentCredits: userDetails?.credits || 0,
+        selectedCredits: selectedPlan?.credits,
+      });
+
+      if (response.status === 200) {
+        // router.push("/dashboard");
+        alert("Payment successful");
+      } else {
+        alert("Something went wrong during payment processing.");
+      }
+    } catch (error: any) {
+      console.error("Payment error:", error.message);
+      alert("There was an error processing your payment. Please try again.");
+    }
+  };
+
+  console.log(selectedPlan?.price)
   return (
     <div className="relative isolate bg-white px-6 py-12 sm:py-16 lg:px-8">
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl"
-      >
+      <div aria-hidden="true" className="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl">
         <div
           style={{
             clipPath:
@@ -72,87 +83,43 @@ const Pricing: React.FC = () => {
         </p>
       </div>
       <p className="mx-auto mt-6 max-w-2xl text-pretty text-center text-lg font-medium text-gray-600 sm:text-xl/8">
-        Purchase credits to redesign your room with the power of AI and
-        transform your living space effortlessly.
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 inline">
-          <path fill-rule="evenodd" d="M9 4.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.75 3.75 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813A3.75 3.75 0 0 0 7.466 7.89l.813-2.846A.75.75 0 0 1 9 4.5ZM18 1.5a.75.75 0 0 1 .728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 0 1 0 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 0 1-1.456 0l-.258-1.036a2.625 2.625 0 0 0-1.91-1.91l-1.036-.258a.75.75 0 0 1 0-1.456l1.036-.258a2.625 2.625 0 0 0 1.91-1.91l.258-1.036A.75.75 0 0 1 18 1.5ZM16.5 15a.75.75 0 0 1 .712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 0 1 0 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 0 1-1.422 0l-.395-1.183a1.5 1.5 0 0 0-.948-.948l-1.183-.395a.75.75 0 0 1 0-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0 1 16.5 15Z" clip-rule="evenodd" />
-        </svg>
+        Purchase credits to redesign your room with the power of AI and transform your living space effortlessly.
       </p>
-      <div className="mx-auto mt-12 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-16 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
-        {" "}
-        {/* Adjusted mt values */}
-        {tiers.map((tier, tierIdx) => (
+
+      <div className="mt-12 grid grid-cols-1 gap-y-6 sm:grid-cols-2 lg:grid-cols-4 gap-5 ">
+        {tiers.map((tier) => (
           <div
             key={tier.id}
-            className={classNames(
-              tier.featured
-                ? "relative bg-gray-900 shadow-2xl"
-                : "bg-white/60 sm:mx-8 lg:mx-0",
-              tier.featured
-                ? ""
-                : tierIdx === 0
-                ? "rounded-t-3xl sm:rounded-b-none lg:rounded-bl-3xl lg:rounded-tr-none"
-                : "sm:rounded-t-none lg:rounded-bl-none lg:rounded-tr-3xl",
-              "rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10"
-            )}
+            className={`p-6 bg-white/30 border ${
+              selectedPlan?.id === tier.id
+                ? "border-indigo-500 shadow-lg scale-105 transition duration-300 ease-in-out"
+                : "border-gray-100 transition duration-300 ease-in-out"
+            } rounded-lg shadow-sm backdrop-blur-sm`}
           >
-            <h3
-              id={tier.id}
-              className={classNames(
-                tier.featured ? "text-indigo-400" : "text-indigo-600",
-                "text-base/7 font-semibold"
-              )}
+            <h3 className="text-lg font-semibold text-gray-900">{tier.name}</h3>
+            <p className="mt-2 text-sm text-gray-500">{tier.description}</p>
+            <p className="mt-4 text-2xl font-bold text-gray-900">${tier.price}</p>
+            <button
+              onClick={() => setSelectedPlan(tier)}
+              className="mt-6 w-full rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
             >
-              {tier.name}
-            </h3>
-            <p className="mt-4 flex items-baseline gap-x-2">
-              <span
-                className={classNames(
-                  tier.featured ? "text-white" : "text-gray-900",
-                  "text-5xl font-semibold tracking-tight"
-                )}
-              >
-                {tier.priceMonthly}
-              </span>
-              <span
-                className={classNames(
-                  tier.featured ? "text-gray-400" : "text-gray-500",
-                  "text-base"
-                )}
-              >
-                /month
-              </span>
-            </p>
-            <p
-              className={classNames(
-                tier.featured ? "text-gray-300" : "text-gray-600",
-                "mt-6 text-base/7"
-              )}
-            >
-              {tier.description}
-            </p>
-            <ul
-              role="list"
-              className={classNames(
-                tier.featured ? "text-gray-300" : "text-gray-600",
-                "mt-8 space-y-3 text-sm/6 sm:mt-10"
-              )}
-            ></ul>
-            <a
-              href={tier.href}
-              aria-describedby={tier.id}
-              className={classNames(
-                tier.featured
-                  ? "bg-indigo-500 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline-indigo-500"
-                  : "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline-indigo-600",
-                "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10"
-              )}
-            >
-              Get started today
-            </a>
+              Choose
+            </button>
           </div>
         ))}
       </div>
+
+      {selectedPlan && (
+        <div className="mt-12 flex justify-center">
+          <PayPalButtons
+            createOrder={(data, actions) => createOrder(data, actions)}
+            onApprove={() => onApprove()}
+            onCancel={() => console.log("Payment cancelled")}
+            onError={(err) => console.error("PayPal Checkout Error:", err)}
+            style={{ layout: "vertical" }}
+          />
+        </div>
+      )}
     </div>
   );
 };

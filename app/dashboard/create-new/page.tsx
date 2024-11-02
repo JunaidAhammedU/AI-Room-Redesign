@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ImageSelection from "./_components/ImageSelection";
 import RoomType from "./_components/RoomType";
 import DesignType from "./_components/DesignType";
@@ -12,9 +12,14 @@ import { storage } from "@/config/firebase";
 import { useUser } from "@clerk/nextjs";
 import CustomLoading from "./_components/CustomLoading";
 import AIOutputDialoge from "../_components/AIOutputDialoge";
+import { UserDetailContext } from "@/app/_context/userDetailContext";
 
 export default function CreateNew() {
   const { user } = useUser();
+  const context = useContext(UserDetailContext);
+  if (!context) return null;
+  const { userDetails, setUserDetails } = context;
+
   const [formData, setFormData] = React.useState<any>({});
   const [loading, setLoading] = useState(false);
   const [aiOutputImg, setAiOutputImg] = useState<any>({});
@@ -34,6 +39,7 @@ export default function CreateNew() {
       description: formData?.additionalRequirements,
       userEmail: user?.primaryEmailAddress?.emailAddress,
     });
+    await updateUserCredits();
     setAiOutputImg(resut.data.result);
     setOpenOutputDialog(true);
     setLoading(false);
@@ -50,6 +56,20 @@ export default function CreateNew() {
     const downloadUrl = await getDownloadURL(imageRef);
     setOrgImage(downloadUrl);
     return downloadUrl
+  };
+
+  const updateUserCredits = async () => {
+    const resut = await axios.post("/api/update-credits", {
+      userEmail: user?.primaryEmailAddress?.emailAddress,
+      currentCredits: userDetails?.credits,
+    });
+
+    if(resut.data.status) {
+      setUserDetails((prev: any) => ({
+        ...prev,
+        credits: userDetails?.credits-1,
+      }))
+    }
   };
   
   return (
