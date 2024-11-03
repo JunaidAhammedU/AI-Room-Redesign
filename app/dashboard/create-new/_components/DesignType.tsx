@@ -9,7 +9,7 @@ export default function DesignType({selectedDesignType}: any) {
     },
     {
       name: "Minimal",
-      image: "/Minimal.jpeg",
+      image: "/Minimal.jpg",
     },
     {
       name: "Contemporary",

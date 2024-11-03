@@ -2,16 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import EmptyState from "./EmptyState";
 import Link from "next/link";
 import axios from "axios";
 import RoomListCard from "./RoomListCard";
+import { SkeletonCard } from "./SkeletonCard";
 
 const DashboardList = () => {
   const { user } = useUser();
+  const skelton = [1,2,3,4,5,6]
   const userEmail = user?.primaryEmailAddress?.emailAddress;
   const [userRoomList, setUserRoomList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const getAllUserRooms = async () => {
     try {
@@ -19,12 +22,16 @@ const DashboardList = () => {
       setUserRoomList(response.data.result);
     } catch (error) {
       console.error("Error fetching user rooms:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    getAllUserRooms();
-  }, [user]);
+    if (userEmail) {
+      getAllUserRooms();
+    }
+  }, [userEmail]);
 
   return (
     <div>
@@ -38,11 +45,15 @@ const DashboardList = () => {
       </div>
 
       {/* list all projects of user */}
-      {userRoomList && userRoomList.length > 0 ? (
+      {loading ? (
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-5 w-[100%] h-[100%]">
+          {skelton.map((data, ind) => <SkeletonCard key={ind} />)}
+        </div>
+      ) : userRoomList.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-5 w-[100%] h-[100%]">
           {userRoomList.map((room, index) => (
-            <div className="p-3">
-              <RoomListCard key={index} room={room} />
+            <div key={index} className="p-3">
+              <RoomListCard room={room} />
             </div>
           ))}
         </div>
