@@ -13,9 +13,12 @@ import { useUser } from "@clerk/nextjs";
 import CustomLoading from "./_components/CustomLoading";
 import AIOutputDialoge from "../_components/AIOutputDialoge";
 import { UserDetailContext } from "@/app/_context/userDetailContext";
+import { useToast } from "@/hooks/use-toast"
+import { ToastAction } from "@radix-ui/react-toast";
 
 export default function CreateNew() {
   const { user } = useUser();
+  const { toast } = useToast()
   const context = useContext(UserDetailContext);
   if (!context) return null;
   const { userDetails, setUserDetails } = context;
@@ -30,7 +33,8 @@ export default function CreateNew() {
   };
 
   const GenerateAIImage = async () => {
-    setLoading(true);
+    if (userDetails?.credits > 0) {
+      setLoading(true);
     const rawImageUrl = await saveRawImagetoFirebase();
     const resut = await axios.post("/api/redesign-room", {
       imageUrl: rawImageUrl,
@@ -43,6 +47,17 @@ export default function CreateNew() {
     setAiOutputImg(resut.data.result);
     setOpenOutputDialog(true);
     setLoading(false);
+    }else{
+      toast({
+        title: "Uh oh! You lose credits",
+        description: "You don't have enough credits to generate an image. Please buy credits to generate an image.",
+        action: (
+          <ToastAction altText="Buy credits" onClick={() => window.location.href = '/dashboard/buy-credits'} className="text-white bg-gray-800 text-sm rounded-sm p-2 hover:bg-gray-950 font-bold hover:translate duration-300">
+            Buy
+          </ToastAction>
+        ),
+      })
+    }
   };
 
   const saveRawImagetoFirebase = async () => {

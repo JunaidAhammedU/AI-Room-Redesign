@@ -1,12 +1,13 @@
-// Header.tsx
-'use client'
+'use client';
 
 import { UserDetailContext } from "@/app/_context/userDetailContext";
 import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useContext } from "react";
+import { Nunito } from "next/font/google";
 
+const artifexFont = Nunito({ subsets: ["latin"] });
 
 function Header() {
   const context = useContext(UserDetailContext);
@@ -17,11 +18,11 @@ function Header() {
 
   const { userDetails } = context;
   return (
-    <div className="p-4 shadow-sm flex justify-between items-center">
+    <div className="p-4 shadow-sm flex justify-between items-center z-50 sticky top-0 bg-white ">
       <Link href={"/dashboard"}>
-        <div className="flex gap-4 items-center cursor-pointer">
-          <Image src={"/logo.svg"} width={40} height={40} alt="logo" />
-          <h2 className="font-bold text-lg">Redo</h2>
+        <div className="flex gap-1 items-center cursor-pointer">
+          <Image src={"/logo.png"} width={60} height={60} alt="logo" />
+          <h2 className={`${artifexFont.className} font-extrabold text-3xl`}>Artifex.ai</h2>
         </div>
       </Link>
       
@@ -37,7 +38,7 @@ function Header() {
           />
           <h3>{userDetails?.credits}</h3>
         </div>
-          <UserButton />
+        <UserButton />
       </div>
     </div>
   );

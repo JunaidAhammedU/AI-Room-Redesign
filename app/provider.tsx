@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { UserDetailContext } from "./_context/userDetailContext";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function Provider({ children }: any) {
   const { user, isLoaded } = useUser();
@@ -33,6 +34,7 @@ export default function Provider({ children }: any) {
         options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID } as any}
       >
         <div>{children}</div>
+        <Toaster />
       </PayPalScriptProvider>
     </UserDetailContext.Provider>
   );

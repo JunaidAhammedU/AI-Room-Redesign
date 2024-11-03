@@ -39,7 +39,7 @@ const DashboardList = () => {
 
       {/* list all projects of user */}
       {userRoomList && userRoomList.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-5 w-[80%] h-[80%]">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-5 w-[100%] h-[100%]">
           {userRoomList.map((room, index) => (
             <div className="p-3">
               <RoomListCard key={index} room={room} />

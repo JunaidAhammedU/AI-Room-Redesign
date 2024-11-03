@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
     const user = await User.findOneAndUpdate(
       { email: userEmail },
-      { $inc: { credits: currentCredits - 1 } },
+      { $inc: { credits: -1 } },
       { new: true, runValidators: true }
     );
 

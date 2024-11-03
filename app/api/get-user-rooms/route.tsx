@@ -6,7 +6,7 @@ export async function POST(req: Request) {
     await connectToDatabase();
     try {
         const { userEmail } = await req.json();
-        const userRooms = await RoomDesign.find({ userEmail });
+        const userRooms = await RoomDesign.find({ userEmail }).sort({ createdAt: -1 });
         return NextResponse.json({ result: userRooms || [] });
     } catch (error: any) {
         console.error("Error fetching user rooms:", error.message);

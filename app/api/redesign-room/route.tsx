@@ -23,18 +23,18 @@ export async function POST(req: Request) {
   }
 
   try {
-    // const output: any = await replicate.run(
-    //   "adirik/interior-design:76604baddc85b1b4616e1c6475eca080da339c8875bd4996705440484a6eac38",
-    //   {
-    //     input: {
-    //       image: imageUrl,
-    //       prompt: `Create a room of type ${roomType} with ${designType} design. The room should be of high quality. The room should have ${description}.`,
-    //     }
-    //   }
-    // );
+    const output: any = await replicate.run(
+      "adirik/interior-design:76604baddc85b1b4616e1c6475eca080da339c8875bd4996705440484a6eac38",
+      {
+        input: {
+          image: imageUrl,
+          prompt: `Create a room of type ${roomType} with ${designType} design. The room should be of high quality. The room should have ${description}.`,
+        }
+      }
+    );
     
-    const output =
-      "https://images.pexels.com/photos/29032415/pexels-photo-29032415/free-photo-of-red-swedish-house-decorated-for-halloween.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load";
+    // const output =
+    //   "https://images.pexels.com/photos/29032415/pexels-photo-29032415/free-photo-of-red-swedish-house-decorated-for-halloween.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load";
     
     const base64Image: any = await convertImageToBase64(output);
 
