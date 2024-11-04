@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     const imageRef = ref(storage, `room-redesign/` + fileName);
     await uploadString(imageRef, base64Image, "data_url");
     const downloadUrl = await getDownloadURL(imageRef);
-
+    
     // save to db
     const newAiImage = new AI_IMG_DB({
       roomType,
