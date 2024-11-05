@@ -32,6 +32,9 @@ export async function POST(req: Request) {
         }
       }
     );
+    if (!output) {
+      throw new Error("Something went wrong!");
+    }
     
     // const output =
     //   "https://images.pexels.com/photos/29032415/pexels-photo-29032415/free-photo-of-red-swedish-house-decorated-for-halloween.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load";
