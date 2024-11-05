@@ -3,13 +3,8 @@
     "name": "project-id-on-vercel-dashboard",
     "public": true,
     "builds": [
-      { "src": "next.config.js", "use": "@vercel/next" }
+      { "src": "package.json", "use": "@vercel/next" }
     ],
-    "functions": {
-        "api/**/*.js": {
-          "maxDuration": 10
-        }
-      },
     "rewrites": [
       {
         "source": "/api/:path*",
@@ -24,3 +19,4 @@
       }
     ]
   }
+  
