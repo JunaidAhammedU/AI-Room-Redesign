@@ -5,6 +5,11 @@
     "builds": [
       { "src": "package.json", "use": "@vercel/next" }
     ],
+    "functions": {
+        "api/**/*.js": {
+          "maxDuration": 10
+        }
+      },
     "rewrites": [
       {
         "source": "/api/:path*",
