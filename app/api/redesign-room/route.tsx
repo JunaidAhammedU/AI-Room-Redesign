@@ -11,7 +11,7 @@ import AI_IMG_DB from "@/models/ai.image.schema";
 import connectToDatabase from "@/config/db";
 
 const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN || "r8_8HYMj7zX07U1bkR42tl6yZZD6tRuNRj2eloUQ",
+  auth: process.env.REPLICATE_API_TOKEN,
 });
 
 export async function POST(req: Request) {

@@ -3,17 +3,13 @@
     "name": "project-id-on-vercel-dashboard",
     "public": true,
     "builds": [
-      { "src": "package.json", "use": "@vercel/next" }
+      { "src": "next.config.js", "use": "@vercel/next" }
     ],
-    "env": {
-        "DATABASE_URL": "mongodb+srv://junaidahammed15:QPELffwN82dv5LrG@redo-ai.cyr4s.mongodb.net/?retryWrites=true&w=majority&appName=Redo-AI",
-        "REPLICATE_API_TOKEN": "r8_8HYMj7zX07U1bkR42tl6yZZD6tRuNRj2eloUQ",
-        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_ZWFzeS1oYXJlLTk1LmNsZXJrLmFjY291bnRzLmRldiQ",
-        "CLERK_SECRET_KEY": "sk_test_DLAVoCXkfz6B3tLHuxi2nxuw4g9ICvbh9rJUyMxFVD",
-        "NEXT_PUBLIC_CLERK_SIGN_IN_URL": "/sign-in",
-        "NEXT_PUBLIC_CLERK_SIGN_UP_URL": "/sign-up",
-        "NEXT_PUBLIC_PAYPAL_CLIENT_ID": "ATI3PypUL69tKQf-MvJiWrTuS8djl5M-xvjtWqJs5xLJJ_SZBRcpJ_cZPxepiYfe42RQGOuAUlqAI4AH"
-    },
+    "functions": {
+        "api/**/*.js": {
+          "maxDuration": 10
+        }
+      },
     "rewrites": [
       {
         "source": "/api/:path*",
@@ -28,4 +24,3 @@
       }
     ]
   }
-  
