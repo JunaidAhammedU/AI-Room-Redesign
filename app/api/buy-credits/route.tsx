@@ -1,4 +1,3 @@
-// Backend Code (/api/buy-credits)
 import User from "@/models/user.schema";
 import connectToDatabase from "@/config/db";
 import { NextResponse } from "next/server";
