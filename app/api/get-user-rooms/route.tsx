@@ -12,4 +12,4 @@ export async function POST(req: Request) {
         console.error("Error fetching user rooms:", error.message);
         return NextResponse.json({ error: "Error fetching user rooms" }, { status: 500 });
     }
-}
+} 
