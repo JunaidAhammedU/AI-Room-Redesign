@@ -20,6 +20,6 @@ export default function RootLayout({
       <html lang="en"> 
         <body className={outfit.className}><Provider>{children}</Provider></body>
       </html>
-    </ClerkProvider>
+    </ClerkProvider> 
   );
 }
