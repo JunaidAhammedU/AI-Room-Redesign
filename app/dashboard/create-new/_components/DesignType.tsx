@@ -16,12 +16,20 @@ export default function DesignType({ selectedDesignType }: any) {
       image: "/Contemporary.jpeg",
     },
     {
-      name: "Rustic",
-      image: "/Rustic.jpeg",
+      name: "Summer",
+      image: "/Summer.jpg",
     },
     {
-      name: "Bohemian",
-      image: "/Bohemian.jpeg",
+      name: "Tropical",
+      image: "/Tropical.png",
+    },
+    {
+      name: "Vintage",
+      image: "/Vintage.jpg",
+    },
+    {
+      name: "Coastal",
+      image: "/Coastal.jpeg",
     },
     {
       name: "Industrial",
