@@ -17,6 +17,7 @@ function Header() {
   }
 
   const { userDetails } = context;
+
   return (
     <div className="p-4 shadow-sm flex justify-between items-center z-50 sticky top-0 bg-white">
       <Link href={"/dashboard"}>
@@ -44,7 +45,9 @@ function Header() {
                 Buy credits
               </h1>
             </Link>
-            <div className="hidden sm:flex items-center gap-2 border border-gray-100 rounded-full px-2 sm:px-3 py-1 shadow-sm">
+
+            {/* Updated credits section for mobile view */}
+            <div className="flex items-center gap-2 border border-gray-100 rounded-full px-2 sm:px-3 py-1 shadow-sm">
               <Image
                 src={"/star.png"}
                 width={16}
@@ -62,6 +65,7 @@ function Header() {
             </h1>
           </Link>
         )}
+
         <UserButton />
       </div>
     </div>

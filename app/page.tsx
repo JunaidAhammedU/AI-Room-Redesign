@@ -74,7 +74,7 @@ export default function Home() {
 
         <section className="mx-auto ">
           <div className="container px-5 mx-auto lg:px-24 mt-10">
-            <div className="flex flex-col w-full mb-4 text-left lg:text-center">
+            <div className="flex flex-col w-full mb-4 text-center">
               <h1 className="mb-8 text-3xl Avenir font-semibold text-black">
                 Trusted by
               </h1>
@@ -94,10 +94,10 @@ export default function Home() {
 
         <div className="grr max-w-7xl pt-20 mx-auto text-center my-20 px-4">
           <div className="flex items-center justify-center relative">
-            <h1 className="mb-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl Avenir font-semibold text-gray-900">
+            <h1 className="mb-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl Avenir font-semibold text-gray-900">
               AI Magic
             </h1>
-            <PiMagicWandBold className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl absolute right-[10%] sm:right-[20%] md:right-[30%] lg:right-[37%] bottom-[30%] sm:bottom-[35%] md:bottom-[40%]" />
+            <PiMagicWandBold className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl absolute right-[10%] sm:right-[20%] md:right-[30%] lg:right-[37%] xl:right-[43%] 2xl:right-[50%] bottom-[30%] sm:bottom-[35%] md:bottom-[40%] lg:bottom-[45%] xl:bottom-[50%] 2xl:bottom-[55%]" />
           </div>
           <h1 className="mb-8 text-lg sm:text-xl md:text-2xl lg:text-2xl Avenir font-semibold text-gray-600 text-center">
             {/* Additional optional description text here */}
