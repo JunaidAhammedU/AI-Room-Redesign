@@ -94,22 +94,24 @@ export default function Home() {
 
         <div className="grr max-w-7xl pt-20 mx-auto text-center my-20 px-4">
           <div className="flex items-center justify-center relative">
-            <h1 className="mb-8 text-4xl md:text-5xl lg:text-6xl Avenir font-semibold text-gray-900">
+            <h1 className="mb-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl Avenir font-semibold text-gray-900">
               AI Magic
             </h1>
-            <PiMagicWandBold className="text-2xl md:text-3xl lg:text-4xl absolute right-[20%] md:right-[30%] lg:right-[37%] bottom-[44%]" />
+            <PiMagicWandBold className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl absolute right-[10%] sm:right-[20%] md:right-[30%] lg:right-[37%] bottom-[30%] sm:bottom-[35%] md:bottom-[40%]" />
           </div>
-          <h1 className="mb-8 text-lg md:text-xl lg:text-2xl Avenir font-semibold text-gray-600 text-center"></h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-center">
+          <h1 className="mb-8 text-lg sm:text-xl md:text-2xl lg:text-2xl Avenir font-semibold text-gray-600 text-center">
+            {/* Additional optional description text here */}
+          </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-center justify-center">
             <div>
               <Image
                 src={"/Room1.jpg"}
-                alt="modern"
+                alt="Modern"
                 className="shadow-lg rounded-lg hover:cursor-pointer hover:scale-105 transform translate duration-300"
                 width={400}
                 height={300}
               />
-              <h2 className="text-lg text-gray-500 mt-2">Modern</h2>
+              <h2 className="text-lg sm:text-xl text-gray-500 mt-2">Modern</h2>
             </div>
             <div>
               <Image
@@ -119,7 +121,9 @@ export default function Home() {
                 width={400}
                 height={300}
               />
-              <h2 className="text-lg text-gray-500 mt-2">Contemporary</h2>
+              <h2 className="text-lg sm:text-xl text-gray-500 mt-2">
+                Contemporary
+              </h2>
             </div>
             <div>
               <Image
@@ -129,7 +133,9 @@ export default function Home() {
                 width={400}
                 height={300}
               />
-              <h2 className="text-lg text-gray-500 mt-2">Bohemian</h2>
+              <h2 className="text-lg sm:text-xl text-gray-500 mt-2">
+                Bohemian
+              </h2>
             </div>
             <div>
               <Image
@@ -139,36 +145,10 @@ export default function Home() {
                 width={400}
                 height={300}
               />
-              <h2 className="text-lg text-gray-500 mt-2">Minimal</h2>
+              <h2 className="text-lg sm:text-xl text-gray-500 mt-2">Minimal</h2>
             </div>
           </div>
         </div>
-
-        {/* <section className="relative">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-            <div className="py-24 md:py-36">
-              <h1 className="mb-5 text-6xl Avenir font-semibold text-gray-900">
-                Subscribe to our newsletter
-              </h1>
-              <h1 className="mb-9 text-2xl font-semibold text-gray-600">
-                Enter your email address and get our newsletters straight away.
-              </h1>
-              <input
-                placeholder="jack@example.com"
-                name="email"
-                type="email"
-                autoComplete="email"
-                className="border border-gray-600 w-1/4 pr-2 pl-2 py-3 mt-2 rounded-md text-gray-800 font-semibold hover:border-gray-900"
-              ></input>{" "}
-              <a
-                className="inline-flex items-center px-14 py-3 mt-2 ml-2 font-medium text-white transition duration-500 ease-in-out transform bg-transparent border rounded-lg bg-gray-900"
-                href="/"
-              >
-                <span className="justify-center">Subscribe</span>
-              </a>
-            </div>
-          </div>
-        </section> */}
       </section>
       <Footer />
     </div>

@@ -11,7 +11,7 @@ import { SkeletonCard } from "./SkeletonCard";
 
 const DashboardList = () => {
   const { user } = useUser();
-  const skelton = [1,2,3,4,5,6]
+  const skeleton = [1, 2, 3, 4, 5, 6];
   const userEmail = user?.primaryEmailAddress?.emailAddress;
   const [userRoomList, setUserRoomList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,23 +34,27 @@ const DashboardList = () => {
   }, [userEmail]);
 
   return (
-    <div>
-      <div className="flex items-center justify-between ">
-        <h1 className="text-3xl font-bold">Hello, {user?.fullName}</h1>
+    <div className="px-4 py-4">
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold">
+          Hello, {user?.fullName}
+        </h1>
         <Link href="/dashboard/create-new">
-          <Button>
-            <span className="text-2xl">+</span>Design a new project
+          <Button className="text-base sm:text-lg px-4 py-2 flex items-center gap-2">
+            <span className="text-xl sm:text-2xl">+</span> Design a new project
           </Button>
         </Link>
       </div>
 
-      {/* list all projects of user */}
+      {/* List all projects of the user */}
       {loading ? (
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-5 w-[100%] h-[100%]">
-          {skelton.map((data, ind) => <SkeletonCard key={ind} />)}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
+          {skeleton.map((_, ind) => (
+            <SkeletonCard key={ind} />
+          ))}
         </div>
       ) : userRoomList.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-5 w-[100%] h-[100%]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
           {userRoomList.map((room, index) => (
             <div key={index} className="p-3">
               <RoomListCard room={room} />

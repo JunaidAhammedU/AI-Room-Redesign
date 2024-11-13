@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 
-export default function DesignType({selectedDesignType}: any) {
+export default function DesignType({ selectedDesignType }: any) {
   const Design = [
     {
       name: "Modern",
@@ -37,12 +37,17 @@ export default function DesignType({selectedDesignType}: any) {
       </label>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-3">
         {Design.map((design, i) => (
-          <div key={i} onClick={() => {setSelectedDesign(design.name), selectedDesignType(design.name)}}>
-            <div className="flex gap-4 items-center my-2">
+          <div
+            key={i}
+            onClick={() => {
+              setSelectedDesign(design.name), selectedDesignType(design.name);
+            }}
+          >
+            <div className="flex gap-4 items-center justify-center my-2">
               <Image
                 src={design.image}
-                width={100}
-                height={100} 
+                width={120}
+                height={120}
                 alt="design"
                 className={`${
                   selectedDesign === design.name
@@ -51,7 +56,7 @@ export default function DesignType({selectedDesignType}: any) {
                 }`}
               />
             </div>
-            <h1>{design.name}</h1>
+            <h1 className="text-center text-sm">{design.name}</h1>
           </div>
         ))}
       </div>

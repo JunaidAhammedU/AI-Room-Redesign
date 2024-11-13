@@ -6,9 +6,15 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.listCard img{
-  height: 200px !important;
-  max-width: 200px;
+.listCard img {
+  height: 150px !important;
+  max-width: 100%;
+}
+
+@media (min-width: 640px) {
+  .listCard img {
+    height: 200px !important;
+  }
 }
 
 @layer base {
@@ -76,8 +82,6 @@ body {
   }
 }
 
-
-
 .grid-background {
   position: absolute;
   top: 0;
@@ -85,8 +89,12 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-                    linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-  background-size: 30px 30px; 
-  z-index: -1; 
+  background-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: -1;
 }

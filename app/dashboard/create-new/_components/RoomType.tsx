@@ -27,6 +27,11 @@ export default function RoomType({ selectedRoomType }: any) {
             <SelectItem value="Office">Office</SelectItem>
             <SelectItem value="Study">Study</SelectItem>
             <SelectItem value="Dressing Room">Dressing Room</SelectItem>
+            <SelectItem value="Gym">Gym</SelectItem>
+            <SelectItem value="workspace">workspace</SelectItem>
+            <SelectItem value="Theater">Theater</SelectItem>
+            <SelectItem value="Prayer Room">Prayer Room</SelectItem>
+            <SelectItem value="Balcony">Balcony</SelectItem>
           </SelectContent>
         </Select>
       </div>
