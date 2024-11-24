@@ -97,7 +97,6 @@ export default function Home() {
             <h1 className="mb-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl Avenir font-semibold text-gray-900">
               AI Magic
             </h1>
-            <PiMagicWandBold className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl absolute right-[10%] sm:right-[20%] md:right-[30%] lg:right-[37%] xl:right-[43%] 2xl:right-[50%] bottom-[30%] sm:bottom-[35%] md:bottom-[40%] lg:bottom-[45%] xl:bottom-[50%] 2xl:bottom-[55%]" />
           </div>
           <h1 className="mb-8 text-lg sm:text-xl md:text-2xl lg:text-2xl Avenir font-semibold text-gray-600 text-center">
             {/* Additional optional description text here */}
