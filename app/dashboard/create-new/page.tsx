@@ -13,64 +13,96 @@ import { useUser } from "@clerk/nextjs";
 import CustomLoading from "./_components/CustomLoading";
 import AIOutputDialoge from "../_components/AIOutputDialoge";
 import { UserDetailContext } from "@/app/_context/userDetailContext";
-import { useToast } from "@/hooks/use-toast"
-import { ToastAction } from "@radix-ui/react-toast";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import formValidationSchema from "@/lib/validationSchema";
+import { PiMagicWandDuotone } from "react-icons/pi";
 
 export default function CreateNew() {
   const { user } = useUser();
-  const { toast } = useToast()
+  const { toast } = useToast();
   const context = useContext(UserDetailContext);
   if (!context) return null;
   const { userDetails, setUserDetails } = context;
 
-  const [formData, setFormData] = React.useState<any>({});
+  const [formData, setFormData] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [aiOutputImg, setAiOutputImg] = useState<any>({});
   const [orgImage, setOrgImage] = useState<any>();
   const [openOutputDialog, setOpenOutputDialog] = useState(false);
+  const [ifError, setIfError] = useState({
+    roomType: false,
+    designType: false,
+    additionalRequirements: false,
+    image: false,
+  });
   const onHandleInput = (value: any, fieldName: string) => {
     setFormData((prev: any) => ({ ...prev, [fieldName]: value }));
   };
 
+  const validateForm = () => {
+    const { error } = formValidationSchema.validate(formData, {
+      abortEarly: false,
+    });
+    console.log(error);
+    if (error) {
+      const errorMessages = error.details.map((err: any) => err.message);
+      errorMessages.forEach((msg: any) =>
+        toast({
+          title: "Missing Field",
+          description: <span style={{ color: "red" }}>{msg}</span>,
+        })
+      );
+      return false;
+    }
+    return true;
+  };
+
   const GenerateAIImage = async () => {
     if (userDetails?.credits > 0) {
+      if (!validateForm()) return;
       setLoading(true);
-    const rawImageUrl = await saveRawImagetoFirebase();
-    const resut = await axios.post("/api/redesign-room", {
-      imageUrl: rawImageUrl,
-      roomType: formData?.roomType,
-      designType: formData?.designType,
-      description: formData?.additionalRequirements,
-      userEmail: user?.primaryEmailAddress?.emailAddress,
-    });
-    await updateUserCredits();
-    setAiOutputImg(resut.data.result);
-    setOpenOutputDialog(true);
-    setLoading(false);
-    }else{
+      const rawImageUrl = await saveRawImagetoFirebase();
+      const resut = await axios.post("/api/redesign-room", {
+        imageUrl: rawImageUrl,
+        roomType: formData?.roomType,
+        designType: formData?.designType,
+        description: formData?.additionalRequirements,
+        userEmail: user?.primaryEmailAddress?.emailAddress,
+      });
+      await updateUserCredits();
+      setAiOutputImg(resut.data.result);
+      setOpenOutputDialog(true);
+      setLoading(false);
+    } else {
       toast({
         title: "Uh oh! You lose credits",
-        description: "You don't have enough credits to generate an image. Please buy credits to generate an image.",
+        description:
+          "You don't have enough credits to generate an image. Please buy credits to generate an image.",
         action: (
-          <ToastAction altText="Buy credits" onClick={() => window.location.href = '/dashboard/buy-credits'} className="text-white bg-gray-800 text-sm rounded-sm p-2 hover:bg-gray-950 font-bold hover:translate duration-300">
+          <ToastAction
+            altText="Buy credits"
+            onClick={() => (window.location.href = "/dashboard/buy-credits")}
+            className="text-white bg-gray-800 text-sm rounded-sm p-2 hover:bg-gray-950 font-bold hover:translate duration-300"
+          >
             Buy
           </ToastAction>
         ),
-      })
+      });
     }
   };
 
   const saveRawImagetoFirebase = async () => {
-    const fileName= Date.now()+"_raw.png";
-    const imageRef = ref(storage, `room-redesign/`+fileName);
+    const fileName = Date.now() + "_raw.png";
+    const imageRef = ref(storage, `room-redesign/` + fileName);
 
     await uploadBytes(imageRef, formData.image).then((snapshot) => {
-      console.log('File uploaded successfully!');
+      console.log("File uploaded successfully!");
     });
 
     const downloadUrl = await getDownloadURL(imageRef);
     setOrgImage(downloadUrl);
-    return downloadUrl
+    return downloadUrl;
   };
 
   const updateUserCredits = async () => {
@@ -79,18 +111,18 @@ export default function CreateNew() {
       currentCredits: userDetails?.credits,
     });
 
-    if(resut.data.status) {
+    if (resut.data.status) {
       setUserDetails((prev: any) => ({
         ...prev,
-        credits: userDetails?.credits-1,
-      }))
+        credits: userDetails?.credits - 1,
+      }));
     }
   };
-  
+
   return (
     <div>
       <h2 className="text-4xl font-bold text-center">
-        Get ready to experience the magic of interior design with Redo AI
+        Get ready to experience the magic of interior design with Artifex AI
       </h2>
       <p className="text-center text-gray-500">
         Redesign your existing space with our AI interior redesign tool. Just
@@ -102,7 +134,6 @@ export default function CreateNew() {
             onHandleInput(selectedFile, "image")
           }
         />
-
         <div className="">
           {/* Room Type */}
           <RoomType
@@ -116,7 +147,7 @@ export default function CreateNew() {
               onHandleInput(selectedDesignType, "designType")
             }
           />
-          {/* Addition Requirements */}
+          {/* Additional Requirements */}
           <TextArea
             additionalRequirements={(value: any) =>
               onHandleInput(value, "additionalRequirements")
@@ -124,7 +155,7 @@ export default function CreateNew() {
           />
 
           <Button className="w-full mt-5" onClick={GenerateAIImage}>
-            Generate{" "}
+            Generate <PiMagicWandDuotone className="text-2xl text-purple-400" />
           </Button>
           <p className="text-gray-400 text-sm mb-52 py-1">
             NOTE: 1 credits will be deducted from your account for every design.
@@ -133,11 +164,11 @@ export default function CreateNew() {
       </div>
       <CustomLoading loading={loading} />
       <AIOutputDialoge
-        openOutputDialog={openOutputDialog} 
-        closeOutputDialog={()=> setOpenOutputDialog(false)}
+        openOutputDialog={openOutputDialog}
+        closeOutputDialog={() => setOpenOutputDialog(false)}
         orgImage={orgImage}
         aiImageUrl={aiOutputImg}
-        />
+      />
     </div>
   );
 }
