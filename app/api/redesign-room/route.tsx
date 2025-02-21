@@ -1,10 +1,6 @@
 import { storage } from "@/config/firebase";
 import axios from "axios";
-import {
-  getDownloadURL,
-  ref,
-  uploadString,
-} from "firebase/storage";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { NextResponse } from "next/server";
 import Replicate from "replicate";
 import AI_IMG_DB from "@/models/ai.image.schema";
@@ -29,16 +25,13 @@ export async function POST(req: Request) {
         input: {
           image: imageUrl,
           prompt: `Create a room of type ${roomType} with ${designType} design. The room should be of high quality. The room should have ${description}.`,
-        }
+        },
       }
     );
     if (!output) {
       throw new Error("Something went wrong!");
     }
-    
-    // const output =
-    //   "https://images.pexels.com/photos/29032415/pexels-photo-29032415/free-photo-of-red-swedish-house-decorated-for-halloween.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load";
-    
+
     const base64Image: any = await convertImageToBase64(output);
 
     // upload to firebase
@@ -46,7 +39,7 @@ export async function POST(req: Request) {
     const imageRef = ref(storage, `room-redesign/` + fileName);
     await uploadString(imageRef, base64Image, "data_url");
     const downloadUrl = await getDownloadURL(imageRef);
-    
+
     // save to db
     const newAiImage = new AI_IMG_DB({
       roomType,
@@ -57,7 +50,7 @@ export async function POST(req: Request) {
       createdAt: new Date(),
     });
     await newAiImage.save();
-    return NextResponse.json({ 'result': downloadUrl });
+    return NextResponse.json({ result: downloadUrl });
   } catch (e: any) {
     console.log(e);
     return NextResponse.json({ error: e.message });
