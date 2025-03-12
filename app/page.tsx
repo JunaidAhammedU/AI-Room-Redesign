@@ -30,7 +30,7 @@ export default function Home() {
               <span className="font-extrabold">
                 Artifex.
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2e1065] to-pink-900">
-                  ai
+                  AI
                 </span>
               </span>
             </h1>
