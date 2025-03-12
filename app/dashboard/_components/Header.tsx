@@ -19,54 +19,57 @@ function Header() {
   const { userDetails } = context;
 
   return (
-    <div className="p-4 shadow-sm flex justify-between items-center z-50 sticky top-0 bg-white">
+    <div className="px-4 py-3 backdrop-blur-md bg-white/80 border-b border-gray-100 flex justify-between items-center z-50 sticky top-0 transition-all duration-300">
       <Link href={"/dashboard"}>
-        <div className="flex gap-1 items-center cursor-pointer">
+        <div className="flex gap-2 items-center cursor-pointer hover:opacity-80 transition-opacity">
           <Image
             src={"/logo.png"}
             width={40}
             height={40}
             alt="logo"
-            className="sm:w-12 sm:h-12"
+            className="w-8 h-8 sm:w-10 sm:h-10"
           />
           <h2
-            className={`${artifexFont.className} font-extrabold text-xl sm:text-3xl`}
+            className={`${artifexFont.className} font-extrabold text-lg sm:text-2xl bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent`}
           >
             Artifex.ai
           </h2>
         </div>
       </Link>
 
-      <div className="flex gap-2 sm:gap-4 items-center">
+      <div className="flex gap-3 sm:gap-5 items-center">
         {user?.primaryEmailAddress?.emailAddress ? (
           <>
             <Link href={"/dashboard/buy-credits"}>
-              <h1 className="text-sm sm:text-base bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500 hover:bg-gradient-to-l cursor-pointer">
+              <button className="text-sm sm:text-base px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-300 font-medium">
                 Buy credits
-              </h1>
+              </button>
             </Link>
 
-            {/* Updated credits section for mobile view */}
-            <div className="flex items-center gap-2 border border-gray-100 rounded-full px-2 sm:px-3 py-1 shadow-sm">
+            <div className="flex items-center gap-2 bg-gray-50 rounded-full px-3 py-1.5 hover:bg-gray-100 transition-colors duration-200">
               <Image
                 src={"/star.png"}
                 width={16}
                 height={16}
                 alt="logo"
-                className="rounded-full sm:w-5 sm:h-5"
+                className="w-4 h-4 sm:w-5 sm:h-5"
               />
-              <h3 className="text-sm sm:text-base">{userDetails?.credits}</h3>
+              <h3 className="text-sm sm:text-base font-medium text-gray-700">
+                {userDetails?.credits}
+              </h3>
             </div>
           </>
         ) : (
           <Link href={"/sign-in"}>
-            <h1 className="text-sm sm:text-base cursor-pointer px-4 py-2 shadow-sm rounded-md">
+            <button className="text-sm sm:text-base px-4 py-2 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition-colors duration-200">
               Login
-            </h1>
+            </button>
           </Link>
         )}
 
-        <UserButton />
+        <div className="hover:opacity-80 transition-opacity">
+          <UserButton afterSignOutUrl="/" />
+        </div>
       </div>
     </div>
   );
