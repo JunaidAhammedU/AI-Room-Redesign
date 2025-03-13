@@ -20,6 +20,7 @@ function Header() {
 
   return (
     <div className="px-4 py-3 backdrop-blur-md bg-white/80 border-b border-gray-100 flex justify-between items-center z-50 sticky top-0 transition-all duration-300">
+      {/*  */}
       <Link href={"/dashboard"}>
         <div className="flex gap-2 items-center cursor-pointer hover:opacity-80 transition-opacity">
           <Image
