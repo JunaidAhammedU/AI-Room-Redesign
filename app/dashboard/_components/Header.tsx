@@ -36,7 +36,6 @@ function Header() {
           </h2>
         </div>
       </Link>
-      {/* user section */}
       <div className="flex gap-3 sm:gap-5 items-center">
         {user?.primaryEmailAddress?.emailAddress ? (
           <>
