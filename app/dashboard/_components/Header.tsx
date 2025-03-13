@@ -10,6 +10,7 @@ import { Nunito } from "next/font/google";
 const artifexFont = Nunito({ subsets: ["latin"] });
 
 function Header() {
+  //  Get user details from context
   const context = useContext(UserDetailContext);
   const { user } = useUser();
   if (!context) {
